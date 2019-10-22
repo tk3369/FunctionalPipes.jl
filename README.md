@@ -24,7 +24,7 @@ pipe([1,2,3], sum, iseven)  # true
 ```
 
 However, we can pass prior results to a function in any specific
-argument position.  The special token is 🔥.
+argument position.  The special token is 🔥 (or `:token`).
 
 ```julia
 pipe(
