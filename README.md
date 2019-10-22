@@ -1,34 +1,46 @@
 # FunctionalPipes
 
 This package provides a simple facility to build functional pipes
-support functions that require more than one argument.  
+that support functions taking more than a single argument.  It also
+allows the results from upstream be placed in any argument position.
 
+## Motivation 
 The pipe operator `|>` works well as long as the downstream
 function takes a single argument.  Otherwise, it becomes quite
 awkward to make anonymous functions to work around the issue.
 For example:
 
 ```julia
-rand(10) |> v -> filter(x -> x > 0.5, v) 
+[1,2,3] |> v -> filter(x -> x > 1, v) |> sum      # 5
 ```
 
-Using functional pipes, we can do the following:
+## Features
+
+Using the `pipe` function, we can build a computation pipe 
+as usual:
+
+```julia
+pipe([1,2,3], sum, iseven)  # true
+```
+
+However, we can pass prior results to a function in any specific
+argument position.  The special token is 🔥.
 
 ```julia
 pipe(
-    rand(10), 
-    dispatch(filter, x -> x > 0.5, 🔥)
+    [1,2,3],
+    dispatch(filter, x -> x > 1, 🔥),
+    sum
 )
 ```
 
-The `dispatch` function replaces the previous result in the place
-where 🔥 is present. You can even have multiple of them:
+In fact, you can even have multiple tokens:
 
 ```julia
 pipe(3, dispatch(+, 🔥, 🔥))     # 6
 ```
 
-If the dispatched function returns nothing, then it carries over
+If the dispatched function returns `nothing`, then it carries over
 the prior result.  This would be useful for functions that only
 have side effects.
 
