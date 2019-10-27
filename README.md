@@ -1,5 +1,8 @@
 # FunctionalPipes
 
+_Note: this package is experimental.  Similar packages include Lazy.jl, 
+Hose.jl, and MagicUnderscores.jl._
+
 This package provides a simple facility to build functional pipes
 that support functions taking more than a single argument.  It also
 allows the results from upstream be placed in any argument position.
